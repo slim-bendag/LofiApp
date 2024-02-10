@@ -24,7 +24,7 @@ body {
   font-family: "Poppins";
 }
 
-img {
+.backgroundS {
   position: absolute;
   right:0;
   top:0;
@@ -36,7 +36,7 @@ img {
 
 .music-Container{
   margin-top: 80vh;
-  width:550px;
+  width:600px;
   padding: 25px;
   display: flex;
   flex-direction: column;
@@ -56,3 +56,26 @@ i:hover {
 .fa-volume-high {
   position: relative;
 }
+
+.MusicContolers {
+  display: flex;
+  align-items: center; 
+}
+
+.MusicContolers > div {
+  margin-right: 5px; 
+}
+
+.audioContainer {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+input[type="rang"]{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+

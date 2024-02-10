@@ -1,5 +1,6 @@
 import './App.css';
 import background from "./images/background1.png";
+import background11 from "./images/background11.mp4";
 import {useState, useRef} from "react";
 import track1 from "./music/Track1.mp3";
 import track2 from "./music/Track2.mp3";
@@ -45,7 +46,16 @@ function App() {
   const [currentTrack, setCurrentTrack] = useState(0);
   const [volume, setVolume] = useState(0.5);
   const [volumeShown, setVolumeShown] = useState(false);
+  const [volumeShownRain, setVolumeShownRain] = useState(false);
+  const [volumeShownFire, setVolumeShownFire] = useState(false);
+  const [volumeShownThunder, setVolumeShownThunder] = useState(false);
+  const [volumeShownWater, setVolumeShownWater] = useState(false);
   const [effectPlay, setEffectPlay]= useState(false);
+  const [rainVol, setRainVol]=useState(0.5);
+  const [thunderVol, setThunderVol]=useState(0.5);
+  const [fireVol, setFireVol]=useState(0.5);
+  const [waterVol, setWaterVol]=useState(0.5);
+  const [effect, setEffect] = useState(false);
 
   const audioRef = useRef(null);
   const fireRef = useRef(null);
@@ -96,41 +106,63 @@ function App() {
     };
   }
 
-  const handleVolume = (e) => {
+  const handleVolume = (e,setY ,setRef) => {
     const newVolume= e.target.value;
-    setVolume(newVolume);
-    audioRef.current.volume = newVolume;
+    setY(newVolume);
+    setRef.current.volume = newVolume;
   }
 
   const handleAudio = (prop) => {
     setEffectPlay(!effectPlay);
     if (effectPlay) {
       prop.current.pause();
+      if (prop === rainRef) {
+        setEffect(false);
+      }
     } else {
       prop.current.play();
+      if (prop === rainRef) {
+        setEffect(true);
+      }
     }
   }
 
   
-
-
-
-
   return (
     <>
       <div className="container" >
-        <img src={background} alt="background"/>
+        {effect ? <video src={background11} alt="background" className='backgroundS' loop autoPlay/> : <img src={background} alt="background" className='backgroundS'/>}
         <div className="music-Container">
           <div className="MusicContolers">
-            <i className="fa-solid fa-backward-step fa-2xl" onClick={handlePrevious}></i>
-            {paused ? <i className="fa-regular fa-circle-pause fa-2xl" onClick={handlePaused}></i> : <i className="fa-regular fa-circle-play fa-2xl" onClick={handlePaused} ></i>}
-            <i className="fa-solid fa-forward-step fa-2xl" onClick={handleNext}></i>
-            {muted ? <i className="fa-solid fa-volume-high fa-2xl" onClick={handleMuted} onMouseEnter={()=>setVolumeShown(true)} onMouseLeave={()=>setVolumeShown(false)}></i> : <i className="fa-solid fa-volume-xmark fa-2xl" onClick={handleMuted}></i> }
-            {volumeShown && <input type='range' min="0" max="1" value={volume} onChange={handleVolume} step="0.05"></input>}
-            <i className="fa-solid fa-cloud-showers-heavy fa-2xl" onClick={()=>handleAudio(rainRef)}></i>
-            <i className="fa-solid fa-bolt fa-2xl" onClick={()=>handleAudio(thunderRef)}></i>
-            <i className="fa-solid fa-fire fa-2xl" onClick={()=>handleAudio(fireRef)}></i>
-            <i className="fa-solid fa-water fa-2xl" onClick={()=>handleAudio(waterRef)}></i>
+            <div className='back'>
+              <i className="fa-solid fa-backward-step fa-2xl" onClick={handlePrevious}></i>
+            </div>
+            <div className='pause'>
+              {paused ? <i className="fa-regular fa-circle-pause fa-2xl" onClick={handlePaused}></i> : <i className="fa-regular fa-circle-play fa-2xl" onClick={handlePaused} ></i>}
+            </div>
+            <div className='forward'>
+              <i className="fa-solid fa-forward-step fa-2xl" onClick={handleNext}></i>
+            </div>
+            <div className="audioContainer" onMouseOver={()=>setVolumeShown(true)} onMouseOut={()=>setVolumeShown(false)}>
+              {muted ? <i className="fa-solid fa-volume-high fa-2xl" onClick={handleMuted} ></i> : <i className="fa-solid fa-volume-xmark fa-2xl" onClick={handleMuted}></i> }
+              {volumeShown && <input type='range' min="0" max="1" value={volume} onChange={(e)=>handleVolume(e, setVolume, audioRef)} step="0.05"></input>}
+            </div>
+            <div className='aduioContainer' onMouseOver={()=>setVolumeShownRain(true)} onMouseOut={()=>setVolumeShownRain(false)}>
+              <i className="fa-solid fa-cloud-showers-heavy fa-2xl" onClick={()=>handleAudio(rainRef)}></i>
+              {volumeShownRain && <input type='range' min="0" max="1" value={rainVol} onChange={(e)=>handleVolume(e, setRainVol , rainRef)} step="0.05"></input>}
+            </div>
+            <div className='aduioContainer' onMouseOver={()=>setVolumeShownThunder(true)} onMouseOut={()=>setVolumeShownThunder(false)}>
+              <i className="fa-solid fa-bolt fa-2xl" onClick={()=>handleAudio(thunderRef)}></i>
+              {volumeShownThunder && <input type='range' min="0" max="1" value={thunderVol} onChange={(e)=>handleVolume(e, setThunderVol, thunderRef)} step="0.05"></input>}
+            </div>
+            <div className='aduioContainer' onMouseOver={()=>setVolumeShownFire(true)} onMouseOut={()=>setVolumeShownFire(false)}>
+              <i className="fa-solid fa-fire fa-2xl" onClick={()=>handleAudio(fireRef)}></i>
+              {volumeShownFire && <input type='range' min="0" max="1" value={fireVol} onChange={(e)=>handleVolume(e, setFireVol, fireRef)} step="0.05"></input>}
+            </div>
+            <div className='aduioContainer' onMouseOver={()=>setVolumeShownWater(true)} onMouseOut={()=>setVolumeShownWater(false)}>
+              <i className="fa-solid fa-water fa-2xl" onClick={()=>handleAudio(waterRef)}></i>
+              {volumeShownWater && <input type='range' min="0" max="1" value={waterVol} onChange={(e)=>handleVolume(e, setWaterVol, waterRef)} step="0.05"></input>}
+            </div>
           </div>
           <div className="audioPlayer">
             <audio src={track[currentTrack].src} ref={audioRef} autoPlay></audio>
