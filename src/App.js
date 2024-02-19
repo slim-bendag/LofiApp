@@ -1,6 +1,7 @@
 import './App.css';
 import background from "./images/background1.png";
-import background11 from "./images/background11.mp4";
+import background2 from "./images/background2.png";
+// import background11 from "./images/background11.mp4";
 import {useState, useRef} from "react";
 import track1 from "./music/Track1.mp3";
 import track2 from "./music/Track2.mp3";
@@ -55,7 +56,9 @@ function App() {
   const [thunderVol, setThunderVol]=useState(0.5);
   const [fireVol, setFireVol]=useState(0.5);
   const [waterVol, setWaterVol]=useState(0.5);
-  const [effect, setEffect] = useState(false);
+  // const [effect, setEffect] = useState(false);
+  const [dark, setDark] = useState(true);
+  const [styling, setStyling] = useState("light");
 
   const audioRef = useRef(null);
   const fireRef = useRef(null);
@@ -116,14 +119,23 @@ function App() {
     setEffectPlay(!effectPlay);
     if (effectPlay) {
       prop.current.pause();
-      if (prop === rainRef) {
-        setEffect(false);
-      }
+      // if (prop === rainRef) {
+      //   setEffect(false);
+      // }
     } else {
       prop.current.play();
-      if (prop === rainRef) {
-        setEffect(true);
-      }
+      // if (prop === rainRef) {
+      //   setEffect(true);
+      // }
+    }
+  }
+
+  const handleDark = () => {
+    setDark(!dark);
+    if(styling==="light") {
+      setStyling("dark");
+    } else {
+      setStyling("light");
     }
   }
 
@@ -131,45 +143,48 @@ function App() {
   return (
     <>
       <div className="container" >
-        {effect ? <video src={background11} alt="background" className='backgroundS' loop autoPlay/> : <img src={background} alt="background" className='backgroundS'/>}
+        {dark ? <img src={background} alt="background" className='backgroundS'/> : <img src={background2} alt="background" className="backgroundS"/>}
         <div className="music-Container">
           <div className="MusicContolers">
             <div className='back'>
-              <i className="fa-solid fa-backward-step fa-2xl" onClick={handlePrevious}></i>
+              <i className="fa-solid fa-backward-step fa-2xl" onClick={handlePrevious} id={styling}></i>
             </div>
             <div className='pause'>
-              {paused ? <i className="fa-regular fa-circle-pause fa-2xl" onClick={handlePaused}></i> : <i className="fa-regular fa-circle-play fa-2xl" onClick={handlePaused} ></i>}
+              {paused ? <i className="fa-regular fa-circle-pause fa-2xl" onClick={handlePaused} id={styling}></i> : <i className="fa-regular fa-circle-play fa-2xl" onClick={handlePaused} id={styling}></i>}
             </div>
             <div className='forward'>
-              <i className="fa-solid fa-forward-step fa-2xl" onClick={handleNext}></i>
+              <i className="fa-solid fa-forward-step fa-2xl" onClick={handleNext} id={styling}></i>
             </div>
             <div className="audioContainer" onMouseOver={()=>setVolumeShown(true)} onMouseOut={()=>setVolumeShown(false)}>
-              {muted ? <i className="fa-solid fa-volume-high fa-2xl" onClick={handleMuted} ></i> : <i className="fa-solid fa-volume-xmark fa-2xl" onClick={handleMuted}></i> }
+              {muted ? <i className="fa-solid fa-volume-high fa-2xl" onClick={handleMuted} id={styling}></i> : <i className="fa-solid fa-volume-xmark fa-2xl" onClick={handleMuted} id={styling}></i> }
               {volumeShown && <input type='range' min="0" max="1" value={volume} onChange={(e)=>handleVolume(e, setVolume, audioRef)} step="0.05"></input>}
             </div>
             <div className='aduioContainer' onMouseOver={()=>setVolumeShownRain(true)} onMouseOut={()=>setVolumeShownRain(false)}>
-              <i className="fa-solid fa-cloud-showers-heavy fa-2xl" onClick={()=>handleAudio(rainRef)}></i>
+              <i className="fa-solid fa-cloud-showers-heavy fa-2xl" onClick={()=>handleAudio(rainRef)} id={styling}></i>
               {volumeShownRain && <input type='range' min="0" max="1" value={rainVol} onChange={(e)=>handleVolume(e, setRainVol , rainRef)} step="0.05"></input>}
             </div>
             <div className='aduioContainer' onMouseOver={()=>setVolumeShownThunder(true)} onMouseOut={()=>setVolumeShownThunder(false)}>
-              <i className="fa-solid fa-bolt fa-2xl" onClick={()=>handleAudio(thunderRef)}></i>
+              <i className="fa-solid fa-bolt fa-2xl" onClick={()=>handleAudio(thunderRef)} id={styling}></i>
               {volumeShownThunder && <input type='range' min="0" max="1" value={thunderVol} onChange={(e)=>handleVolume(e, setThunderVol, thunderRef)} step="0.05"></input>}
             </div>
             <div className='aduioContainer' onMouseOver={()=>setVolumeShownFire(true)} onMouseOut={()=>setVolumeShownFire(false)}>
-              <i className="fa-solid fa-fire fa-2xl" onClick={()=>handleAudio(fireRef)}></i>
+              <i className="fa-solid fa-fire fa-2xl" onClick={()=>handleAudio(fireRef)} id={styling}></i>
               {volumeShownFire && <input type='range' min="0" max="1" value={fireVol} onChange={(e)=>handleVolume(e, setFireVol, fireRef)} step="0.05"></input>}
             </div>
             <div className='aduioContainer' onMouseOver={()=>setVolumeShownWater(true)} onMouseOut={()=>setVolumeShownWater(false)}>
-              <i className="fa-solid fa-water fa-2xl" onClick={()=>handleAudio(waterRef)}></i>
+              <i className="fa-solid fa-water fa-2xl" onClick={()=>handleAudio(waterRef)} id={styling}></i>
               {volumeShownWater && <input type='range' min="0" max="1" value={waterVol} onChange={(e)=>handleVolume(e, setWaterVol, waterRef)} step="0.05"></input>}
+            </div>
+            <div>
+              {dark ? <i class="fa-regular fa-moon fa-2xl" onClick={handleDark} id={styling}></i> : <i class="fa-regular fa-sun fa-2xl" onClick={handleDark} id={styling}></i> }
             </div>
           </div>
           <div className="audioPlayer">
-            <audio src={track[currentTrack].src} ref={audioRef} autoPlay></audio>
-            <audio src={fire} ref={fireRef} ></audio>
-            <audio src={rain} ref={rainRef} ></audio>
-            <audio src={thunder} ref={thunderRef} ></audio>
-            <audio src={water} ref={waterRef}></audio>
+            <audio src={track[currentTrack].src} ref={audioRef} autoPlay loop></audio>
+            <audio src={fire} ref={fireRef} loop></audio>
+            <audio src={rain} ref={rainRef} loop></audio>
+            <audio src={thunder} ref={thunderRef} loop></audio>
+            <audio src={water} ref={waterRef} loop></audio>
           </div>
         </div>
       </div>
