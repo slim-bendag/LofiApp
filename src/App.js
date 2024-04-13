@@ -51,12 +51,14 @@ function App() {
   const [volumeShownFire, setVolumeShownFire] = useState(false);
   const [volumeShownThunder, setVolumeShownThunder] = useState(false);
   const [volumeShownWater, setVolumeShownWater] = useState(false);
-  const [effectPlay, setEffectPlay]= useState(false);
-  const [rainVol, setRainVol]=useState(0.5);
-  const [thunderVol, setThunderVol]=useState(0.5);
-  const [fireVol, setFireVol]=useState(0.5);
-  const [waterVol, setWaterVol]=useState(0.5);
-  // const [effect, setEffect] = useState(false);
+  const [effectPlayF, setEffectPlayF] = useState(false);
+  const [effectPlayR, setEffectPlayR] = useState(false);
+  const [effectPlayT, setEffectPlayT] = useState(false);
+  const [effectPlayW, setEffectPlayW] = useState(false);
+  const [rainVol, setRainVol] = useState(0.5);
+  const [thunderVol, setThunderVol] = useState(0.5);
+  const [fireVol, setFireVol] = useState(0.5);
+  const [waterVol, setWaterVol] = useState(0.5);
   const [dark, setDark] = useState(true);
   const [styling, setStyling] = useState("light");
 
@@ -66,39 +68,30 @@ function App() {
   const thunderRef = useRef(null);
   const waterRef = useRef(null);
 
-
-
-  
-
   const handleNext = () => {
     if (currentTrack < 12) {
-      setCurrentTrack(currentTrack+1);
+      setCurrentTrack(currentTrack + 1);
     } else {
       setCurrentTrack(0);
     }
-    
-    
   };
 
   const handlePrevious = () => {
     if (currentTrack > 0) {
-    setCurrentTrack(currentTrack-1);
+      setCurrentTrack(currentTrack - 1);
     } else {
-    setCurrentTrack(12);
+      setCurrentTrack(12);
     }
-    
   };
-
 
   const handlePaused = () => {
     setPaused(!paused);
     if (paused === true) {
       audioRef.current.pause();
-    } else { 
+    } else {
       audioRef.current.play();
-    };
-
-  }
+    }
+  };
 
   const handleMuted = () => {
     setMuted(!muted);
@@ -106,44 +99,66 @@ function App() {
       audioRef.current.volume = 0;
     } else {
       audioRef.current.volume = 1;
-    };
-  }
+    }
+  };
 
-  const handleVolume = (e,setY ,setRef) => {
-    const newVolume= e.target.value;
+  const handleVolume = (e, setY, setRef) => {
+    const newVolume = e.target.value;
     setY(newVolume);
     setRef.current.volume = newVolume;
-  }
+  };
 
-  const handleAudio = (prop) => {
-    setEffectPlay(!effectPlay);
-    if (effectPlay) {
-      prop.current.pause();
-      // if (prop === rainRef) {
-      //   setEffect(false);
-      // }
+
+
+  const handleRainAudio = () => {
+    setEffectPlayR(!effectPlayR);
+    if (effectPlayR) {
+      rainRef.current.pause();
     } else {
-      prop.current.play();
-      // if (prop === rainRef) {
-      //   setEffect(true);
-      // }
+      rainRef.current.play();
     }
-  }
+  };
+
+  const handleThunderAudio = () => {
+    setEffectPlayT(!effectPlayT);
+    if (effectPlayT) {
+      thunderRef.current.pause();
+    } else {
+      thunderRef.current.play();
+    }
+  };
+
+  const handleFireAudio = () => {
+    setEffectPlayF(!effectPlayF);
+    if (effectPlayF) {
+      fireRef.current.pause();
+    } else {
+      fireRef.current.play();
+    }
+  };
+
+  const handleWaterAudio = () => {
+    setEffectPlayW(!effectPlayW);
+    if (effectPlayW) {
+      waterRef.current.pause();
+    } else {
+      waterRef.current.play();
+    }
+  };
 
   const handleDark = () => {
     setDark(!dark);
-    if(styling==="light") {
+    if (styling === "light") {
       setStyling("dark");
     } else {
       setStyling("light");
     }
-  }
+  };
 
-  
   return (
     <>
       <div className="container" >
-        {dark ? <img src={background} alt="background" className='backgroundS'/> : <img src={background2} alt="background" className="backgroundS"/>}
+        {dark ? <img src={background} alt="background" className='backgroundS' /> : <img src={background2} alt="background" className="backgroundS" />}
         <div className="music-Container">
           <div className="MusicContolers">
             <div className='back'>
@@ -155,28 +170,28 @@ function App() {
             <div className='forward'>
               <i className="fa-solid fa-forward-step fa-2xl" onClick={handleNext} id={styling}></i>
             </div>
-            <div className="audioContainer" onMouseOver={()=>setVolumeShown(true)} onMouseOut={()=>setVolumeShown(false)}>
-              {muted ? <i className="fa-solid fa-volume-high fa-2xl" onClick={handleMuted} id={styling}></i> : <i className="fa-solid fa-volume-xmark fa-2xl" onClick={handleMuted} id={styling}></i> }
-              {volumeShown && <input type='range' min="0" max="1" value={volume} onChange={(e)=>handleVolume(e, setVolume, audioRef)} step="0.05"></input>}
+            <div className="audioContainer" onMouseOver={() => setVolumeShown(true)} onMouseOut={() => setVolumeShown(false)}>
+              {muted ? <i className="fa-solid fa-volume-high fa-2xl" onClick={handleMuted} id={styling}></i> : <i className="fa-solid fa-volume-xmark fa-2xl" onClick={handleMuted} id={styling}></i>}
+              { paused && volumeShown && <input type='range' min="0" max="1" value={volume} onChange={(e) => handleVolume(e, setVolume, audioRef)} step="0.05" style={{'--value': (volume * 100) }}></input>}
             </div>
-            <div className='aduioContainer' onMouseOver={()=>setVolumeShownRain(true)} onMouseOut={()=>setVolumeShownRain(false)}>
-              <i className="fa-solid fa-cloud-showers-heavy fa-2xl" onClick={()=>handleAudio(rainRef)} id={styling}></i>
-              {volumeShownRain && <input type='range' min="0" max="1" value={rainVol} onChange={(e)=>handleVolume(e, setRainVol , rainRef)} step="0.05"></input>}
+            <div className='aduioContainer' onMouseOver={() => setVolumeShownRain(true)} onMouseOut={() => setVolumeShownRain(false)}>
+              <i className="fa-solid fa-cloud-showers-heavy fa-2xl" onClick={handleRainAudio} id={styling}></i>
+              {effectPlayR && volumeShownRain && <input type='range' min="0" max="1" value={rainVol} onChange={(e) => handleVolume(e, setRainVol, rainRef)} step="0.05" style={{'--value': (rainVol * 100) }}></input>}
             </div>
-            <div className='aduioContainer' onMouseOver={()=>setVolumeShownThunder(true)} onMouseOut={()=>setVolumeShownThunder(false)}>
-              <i className="fa-solid fa-bolt fa-2xl" onClick={()=>handleAudio(thunderRef)} id={styling}></i>
-              {volumeShownThunder && <input type='range' min="0" max="1" value={thunderVol} onChange={(e)=>handleVolume(e, setThunderVol, thunderRef)} step="0.05"></input>}
+            <div className='aduioContainer' onMouseOver={() => setVolumeShownThunder(true)} onMouseOut={() => setVolumeShownThunder(false)}>
+              <i className="fa-solid fa-bolt fa-2xl" onClick={handleThunderAudio} id={styling}></i>
+              {effectPlayT && volumeShownThunder && <input type='range' min="0" max="1" value={thunderVol} onChange={(e) => handleVolume(e, setThunderVol, thunderRef)} step="0.05" style={{'--value': (thunderVol * 100) }}></input>}
             </div>
-            <div className='aduioContainer' onMouseOver={()=>setVolumeShownFire(true)} onMouseOut={()=>setVolumeShownFire(false)}>
-              <i className="fa-solid fa-fire fa-2xl" onClick={()=>handleAudio(fireRef)} id={styling}></i>
-              {volumeShownFire && <input type='range' min="0" max="1" value={fireVol} onChange={(e)=>handleVolume(e, setFireVol, fireRef)} step="0.05"></input>}
+            <div className='aduioContainer' onMouseOver={() => setVolumeShownFire(true)} onMouseOut={() => setVolumeShownFire(false)}>
+              <i className="fa-solid fa-fire fa-2xl" onClick={handleFireAudio} id={styling}></i>
+              {effectPlayF && volumeShownFire && <input type='range' min="0" max="1" value={fireVol} onChange={(e) => handleVolume(e, setFireVol, fireRef)} step="0.05" style={{'--value': (fireVol * 100) }}></input>}
             </div>
-            <div className='aduioContainer' onMouseOver={()=>setVolumeShownWater(true)} onMouseOut={()=>setVolumeShownWater(false)}>
-              <i className="fa-solid fa-water fa-2xl" onClick={()=>handleAudio(waterRef)} id={styling}></i>
-              {volumeShownWater && <input type='range' min="0" max="1" value={waterVol} onChange={(e)=>handleVolume(e, setWaterVol, waterRef)} step="0.05"></input>}
+            <div className='aduioContainer' onMouseOver={() => setVolumeShownWater(true)} onMouseOut={() => setVolumeShownWater(false)}>
+              <i className="fa-solid fa-water fa-2xl" onClick={handleWaterAudio} id={styling}></i>
+              {effectPlayW && volumeShownWater && <input type='range' min="0" max="1" value={waterVol} onChange={(e) => handleVolume(e, setWaterVol, waterRef)} step="0.05" style={{'--value': (waterVol * 100) }}></input>}
             </div>
             <div>
-              {dark ? <i class="fa-regular fa-moon fa-2xl" onClick={handleDark} id={styling}></i> : <i class="fa-regular fa-sun fa-2xl" onClick={handleDark} id={styling}></i> }
+              {dark ? <i className="fa-regular fa-moon fa-2xl" onClick={handleDark} id={styling}></i> : <i className="fa-regular fa-sun fa-2xl" onClick={handleDark} id={styling}></i>}
             </div>
           </div>
           <div className="audioPlayer">

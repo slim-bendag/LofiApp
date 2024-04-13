@@ -79,30 +79,54 @@ i {
   padding: 0;
 }
 
-input[type="rang"]{
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-input[type="range"] {
+#light ~ input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
   width: 65%;
   height: 8px;
-  background:  #d3d3d3;
+  background: linear-gradient(to right, #ec9671 0%, #ec9671 calc( var(--value) * 1% ), #d3d3d3 calc( var(--value) * 1% ), #d3d3d3 100%); /* Use linear gradient */
   outline: none;
   opacity: 0.7;
   transition: opacity 0.2s;
   border-radius: 5px;
 }
 
-input[type="range"]::-webkit-slider-thumb {
+#light ~ input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 20px;
   height: 20px;
-  background: orange; /* Set thumb color */
+  background: #ec9671; /* Set thumb color */
   cursor: pointer;
   border-radius: 50%;
+  position: relative;
+  z-index: 1;
 }
+
+
+
+#dark ~ input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 65%;
+  height: 8px;
+  background: linear-gradient(to right, #8551e6 0%, #8551e6 calc( var(--value) * 1% ), #d3d3d3 calc( var(--value) * 1% ), #d3d3d3 100%); /* Use linear gradient */
+  outline: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  border-radius: 5px;
+}
+
+#dark ~ input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #8551e6; /* Set thumb color */
+  cursor: pointer;
+  border-radius: 50%;
+  position: relative;
+  z-index: 1;
+}
+
 
