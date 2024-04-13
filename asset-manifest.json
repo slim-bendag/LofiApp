@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/LofiApp/static/css/main.48f72cdc.css",
-    "main.js": "/LofiApp/static/js/main.484fe4a6.js",
+    "main.css": "/LofiApp/static/css/main.946a1a23.css",
+    "main.js": "/LofiApp/static/js/main.481d4f36.js",
     "static/media/rain.mp3": "/LofiApp/static/media/rain.185ffe1195098b57fd15.mp3",
     "static/media/background2.png": "/LofiApp/static/media/background2.3f19d5bad138c3749b0f.png",
     "static/media/background1.png": "/LofiApp/static/media/background1.94ff702329950c0cbb54.png",
@@ -22,11 +22,11 @@
     "static/media/thunder.mp3": "/LofiApp/static/media/thunder.785ddb9ae5b7d2fedc78.mp3",
     "static/media/Track6.mp3": "/LofiApp/static/media/Track6.3c783b909a338c5f5dc8.mp3",
     "index.html": "/LofiApp/index.html",
-    "main.48f72cdc.css.map": "/LofiApp/static/css/main.48f72cdc.css.map",
-    "main.484fe4a6.js.map": "/LofiApp/static/js/main.484fe4a6.js.map"
+    "main.946a1a23.css.map": "/LofiApp/static/css/main.946a1a23.css.map",
+    "main.481d4f36.js.map": "/LofiApp/static/js/main.481d4f36.js.map"
   },
   "entrypoints": [
-    "static/css/main.48f72cdc.css",
-    "static/js/main.484fe4a6.js"
+    "static/css/main.946a1a23.css",
+    "static/js/main.481d4f36.js"
   ]
 }
