@@ -96,7 +96,7 @@ i {
   appearance: none;
   width: 20px;
   height: 20px;
-  background: #ec9671; /* Set thumb color */
+  background: #ec9671; 
   cursor: pointer;
   border-radius: 50%;
   position: relative;
@@ -122,7 +122,7 @@ i {
   appearance: none;
   width: 20px;
   height: 20px;
-  background: #8551e6; /* Set thumb color */
+  background: #8551e6; 
   cursor: pointer;
   border-radius: 50%;
   position: relative;
